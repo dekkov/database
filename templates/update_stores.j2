@@ -1,0 +1,76 @@
+{% extends "stores.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Update Store{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="update_store">
+    <table>
+        {% if data %}
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+<br />
+<br />
+
+<div>
+    <form id="updateStore" action="{{ url_for('update_stores', store_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Update Store</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="store_id" name="store_id" disabled>
+
+            <br />
+
+            <label>Store Number</label>
+            <input type="text" value="{{ data[0]['Store Number'] }}" id="store_number" name="store_number" required />
+
+            <br />
+
+            <label>Phone Number</label>
+            <input type="tel" value="{{ data[0].Phone }}" id="store_phone" name="store_phone"
+                pattern="^\(\d{3}\) \d{3}-\d{4}$" required />
+
+            <br />
+
+            <label>Email</label>
+            <input type="email" value="{{ data[0].Email }}" id="store_email" name="store_email"
+                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Update Store" name="Update_Store" />
+            <a href="{{ url_for('stores') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

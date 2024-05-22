@@ -1,0 +1,96 @@
+{% extends "store_products.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Update Store Product{% endblock %}
+
+{% block main_content %}
+
+<div id="update_store_product">
+    <table>
+        {% if data %}
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+<br />
+<br />
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div>
+    <form id="updateStoreProduct" action="{{ url_for('update_store_products', store_product_id=data[0].ID) }}"
+        method="POST">
+        <fieldset>
+            <legend>Update Store Product</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="store_product_id" name="store_product_id" disabled>
+
+            <br />
+
+            <label>Store Number</label>
+            <select id="store_number" name="store_number" required>
+                {% if stores %}
+                {% for item in stores %}
+                {% if item['store_number'] == data[0]['Store Number'] %}
+                <option value="{{ item['store_id'] }}" selected>{{ item['store_number'] }}</option>
+                {% else %}
+                <option value="{{ item['store_id'] }}">{{ item['store_number'] }}</option>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Product</label>
+            <select id="product_description" name="product_description" required>
+                {% if products %}
+                {% for item in products %}
+                {% if item['product_description'] == data[0].Product %}
+                <option value="{{ item['product_id'] }}" selected>{{ item['product_description'] }}</option>
+                {% else %}
+                <option value="{{ item['product_id'] }}">{{ item['product_description'] }}</option>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Number in Stock</label>
+            <input type="number" value="{{ data[0]['In Stock'] }}" id="number_in_stock" name="number_in_stock"
+                required />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Update Store Product" name="Update_Store_Product" />
+            <a href="{{ url_for('store_products') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,246 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color: #CCC3D6;
+    background-color: #1F2739;
+    margin: auto;
+    padding: auto;
+    text-align: center;
+    margin: auto;
+}
+
+h1 {
+    font-size: 3em;
+    line-height: 1em;
+    color: #4DC3FA;
+}
+
+h1 i {
+    padding-right: 1em;
+}
+
+h2 {
+    display: block;
+    line-height: 1em;
+    padding-bottom: 2em;
+    color: #E43950;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.blue {
+    color: #5B8FB9;
+
+}
+
+.yellow {
+    color: #FFF842;
+}
+
+nav a {
+    font-weight: bold;
+    font-size: 1em;
+    color: #5aa6c9;
+    padding: 5px 20px;
+}
+
+nav a:hover {
+    color: #FFF842;
+}
+
+.random {
+    color: #CCC3D6;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/**-------------------------------------------------------------------
+ * TABLE
+ * -------------------------------------------------------------------
+ */
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    padding: 2% 15px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #2399CF;
+    background-color: #1F2739;
+}
+
+td {
+    padding: 2% 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    box-shadow: 0 2px 2px 2px #0E1119;
+    -moz-box-shadow: 0 2px 2px 2px #0E1119;
+    -webkit-box-shadow: 0 2px 2px 2px #0E1119;
+}
+
+td a {
+    display: block;
+}
+
+tr:nth-child(odd) {
+    background-color: #323C50;
+}
+
+tr:nth-child(even) {
+    background-color: #2C3446;
+}
+
+td:first-child {
+    color: #FFF842;
+}
+
+td:nth-last-child(2) a {
+    color: #7498D1;
+}
+
+td:last-child a {
+    color: #FB667A;
+}
+
+tr:hover {
+    background-color: #464A52;
+    box-shadow: 0 6px 6px -6px #0E1119;
+    -moz-box-shadow: 0 6px 6px -6px #0E1119;
+    -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+td:hover {
+    background-color: #FFF842;
+    color: #403E10;
+    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+}
+
+td:nth-last-child(2):hover {
+    background-color: #7498D1;
+    color: #0E1119;
+    box-shadow: #3483A7 -1px 1px, #3483A7 -2px 2px, #3483A7 -3px 3px, #3483A7 -4px 4px, #3483A7 -5px 5px, #3483A7 -6px 6px;
+}
+
+td:last-child:hover {
+    background-color: #FB667A;
+    color: #0E1119;
+    box-shadow: #9F3D4A -1px 1px, #9F3D4A -2px 2px, #9F3D4A -3px 3px, #9F3D4A -4px 4px, #9F3D4A -5px 5px, #9F3D4A -6px 6px;
+}
+
+td:nth-last-child(2):hover a,
+td:last-child:hover a {
+    color: #0E1119;
+}
+
+/**-------------------------------------------------------------------
+ * FORM
+ * -------------------------------------------------------------------
+ */
+
+form {
+    margin: 0 auto;
+}
+
+label {
+    display: inline-block;
+    text-align: left;
+    padding: 2% 15px;
+}
+
+input,
+select,
+textarea {
+    display: inline-block;
+    width: 200px;
+    padding: 2% 15px;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+    float: none;
+    font-weight: bold;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+#addCustomer input,
+#addProduct input,
+#addStore input,
+#addStoreProduct input,
+#addStoreProduct select,
+#addOrder input,
+#addOrder select,
+#addOrder textarea,
+#addOrderDetail input,
+#addOrderDetail select,
+#updateCustomer input,
+#updateProduct input,
+#updateStore input,
+#updateStoreProduct input,
+#updateStoreProduct select,
+#deleteCustomer input,
+#deleteProduct input,
+#deleteStore input,
+#deleteStoreProduct input,
+#deleteOrder input,
+#deleteOrder textarea {
+    float: right;
+}
+
+#addCustomer input[type="button"],
+#addCustomer input[type="submit"],
+#addProduct input[type="button"],
+#addProduct input[type="submit"],
+#addStore input[type="button"],
+#addStore input[type="submit"],
+#addStoreProduct input[type="button"],
+#addStoreProduct input[type="submit"],
+#addOrder input[type="button"],
+#addOrder input[type="submit"],
+#addOrderDetail input[type="button"],
+#addOrderDetail input[type="submit"],
+#updateCustomer input[type="button"],
+#updateCustomer input[type="submit"],
+#updateProduct input[type="button"],
+#updateProduct input[type="submit"],
+#updateStore input[type="button"],
+#updateStore input[type="submit"],
+#updateStoreProduct input[type="button"],
+#updateStoreProduct input[type="submit"],
+#deleteCustomer input[type="button"],
+#deleteCustomer input[type="submit"],
+#deleteProduct input[type="button"],
+#deleteProduct input[type="submit"],
+#deleteStore input[type="button"],
+#deleteStore input[type="submit"],
+#deleteStoreProduct input[type="button"],
+#deleteStoreProduct input[type="submit"],
+#deleteOrder input[type="button"],
+#deleteOrder input[type="submit"] {
+    float: none;
+    margin: 2% auto;
+    font-weight: bold;
+}

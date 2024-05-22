@@ -1,0 +1,44 @@
+{% extends "customers.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Delete Customer{% endblock %}
+
+{% block main_content %}
+
+<div>
+    <p class="yellow">Warning: The following action cannot be undone.</p>
+    <p class="yellow">Deleting a Customer associated with an Order will delete that Order as well as any Order Details associated with that Order.</p>
+</div>
+
+<div id="delete_customer">
+    <form id="deleteCustomer" action="{{ url_for('delete_customers', customer_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Delete Customer</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="customer_id" name="customer_id" disabled>
+
+            <br />
+
+            <label>Name</label>
+            <input value="{{ data[0].Name }}" id="customer_name" name="customer_name" disabled />
+
+            <br />
+
+            <label>Phone Number</label>
+            <input value="{{ data[0].Phone }}" id="customer_phone" name="customer_phone" disabled />
+
+            <br />
+
+            <label>Email</label>
+            <input type="email" value="{{ data[0].Email }}" id="customer_email" name="customer_email" disabled />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Delete Customer" name="Delete_Customer" />
+            <a href="{{ url_for('customers') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

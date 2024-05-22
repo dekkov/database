@@ -1,0 +1,65 @@
+{% extends "orders.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Add Order Detail{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="add_order_detail">
+    <form id="addOrderDetail" action="{{ url_for('add_order_details') }}" method="POST">
+        <fieldset>
+            <legend>Add New Order Detail</legend>
+
+            <label>Order ID</label>
+            <select id="order_id" name="order_id" required>
+                {% if orders %}
+                <option value="" selected disabled hidden>Order ID | Date | Customer | Store Number</option>
+                {% for item in orders %}
+                <option value="{{ item['order_id'] }}">{{ item['Order'] }}</option>
+                {% endfor %}
+                {% if null_orders %}
+                {% for item in null_orders %}
+                <option value="{{ item['order_id'] }}">{{ item['Order'] }}</option>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Product</label>
+            <select id="product_description" name="product_description" required>
+                {% if products %}
+                {% for item in products %}
+                <option value="{{ item['product_id'] }}">{{ item['product_description'] }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Quantity</label>
+            <input type="number" id="order_quantity" name="order_quantity" value="1" required />
+
+            <br />
+
+            <label>Line Total</label>
+            <input type="number" id="line_total" name="line_total" step="0.01" placeholder="0.00" required />
+
+        </fieldset>
+
+        <input type="submit" value="Add Order Detail" name="Add_Order_Detail" />
+        <a href="{{ url_for('orders') }}"><input type="button" value="Cancel" /></a>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}{{ super.super() }}{% endblock %}

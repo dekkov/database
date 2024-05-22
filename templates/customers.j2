@@ -1,0 +1,75 @@
+{% extends "base.j2" %}
+{% block title %}: Customers{% endblock %}
+
+{% block main_heading %}Customers{% endblock %}
+
+{% block main_content %}
+
+<div>
+    {% block search_form %}
+    <form id="searchCustomer" action="{{ url_for('customers') }}" method="POST">
+        <fieldset>
+            <legend>Search for a Customer</legend>
+            <label>Search By</label>
+            <select id="search_by" name="search_by">
+                <option value="customer_name">Name</option>
+                <option value="customer_phone">Phone</option>
+                <option value="customer_email">Email</option>
+            </select>
+            <input type="text" id="customer_search" name="customer_search" />
+            <input type="submit" value="Search" name="Search_Customer" />
+        </fieldset>
+    </form>
+    {% endblock search_form %}
+</div>
+
+<br />
+<br />
+
+<div id="browse_customers">
+    {% block data_table %}
+    {% if data %}
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+
+                <th>Update</th>
+                <th>Delete</th>
+            
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+
+                <!-- Update/Delete buttons -->
+                <td><a href="{{ url_for('update_customers', customer_id=item.ID) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{ url_for('delete_customers', customer_id=item.ID) }}"><i class="fa-solid fa-trash"></i></a></td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+    {% endblock data_table %}
+
+    {% block table_button %}
+    <p><a href="{{ url_for('add_customers') }}"><input type="button" value="Add New Customer"></a></p>
+    {% endblock %}
+
+</div>
+
+{% endblock main_content %}
+
+{% block footer %}<br />
+Customer data generated with <a class="random" href="https://randomuser.me/">Random User Generator</a>.
+{% endblock %}

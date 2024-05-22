@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+    <head>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="Hero Electronics Database (Draft)" />
+        <meta name="author" content="Dania Magana, August Frisk" />
+
+        <title>Hero Electronics{% block title %}{% endblock %}</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+
+    </head>
+
+    <body>
+
+        <header>
+            <h1><i class="fa-regular fa-chess-rook blue"></i>Hero
+                <br />
+                <span class="yellow">Electronics</span>
+            </h1>
+        </header>
+
+        <hr />
+
+        <nav>
+            <a href="{{ url_for('customers') }}">Customers</a> | <a href="{{ url_for('products') }}">Products</a> | <a
+                href="{{ url_for('stores') }}">Stores</a> | <a href="{{ url_for('store_products') }}">Store Products</a>
+            | <a href="{{ url_for('orders') }}">Orders</a>
+        </nav>
+
+        <hr />
+
+        <main>
+
+            <h2>{% block main_heading %}{% endblock %}</h2>
+
+            <div id="main_content">
+                {% block main_content %}{% endblock %}
+            </div>
+
+        </main>
+
+        <footer>
+
+            <div align="center">
+                <p>&copy; 2023 Dania Magana &amp; August Frisk.
+                    {% block footer %}{% endblock %}
+                </p>
+            </div>
+
+        </footer>
+
+    </body>
+
+</html>

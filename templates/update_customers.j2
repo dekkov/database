@@ -1,0 +1,77 @@
+{% extends "customers.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Update Customer{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="update_customer">
+    <table>
+        {% if data %}
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+<br />
+<br />
+
+<div>
+    <form id="updateCustomer" action="{{ url_for('update_customers', customer_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Update Customer</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="customer_id" name="customer_id" disabled>
+
+            <br />
+
+            <label>Name</label>
+            <input type="text" value="{{ data[0].Name }}" id="customer_name" name="customer_name"
+                pattern="^[a-zA-Z]+ [a-zA-Z]+$" required />
+
+            <br />
+
+            <label>Phone Number</label>
+            <input type="tel" value="{{ data[0].Phone }}" id="customer_phone" name="customer_phone"
+                pattern="^\(\d{3}\) \d{3}-\d{4}$" required />
+
+            <br />
+
+            <label>Email</label>
+            <input type="email" value="{{ data[0].Email }}" id="customer_email" name="customer_email"
+                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Update Customer" name="Update_Customer" />
+            <a href="{{ url_for('customers') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

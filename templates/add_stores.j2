@@ -1,0 +1,45 @@
+{% extends "stores.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Add Store{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="add_store">
+    <form id="addStore" action="{{ url_for('add_stores') }}" method="POST">
+        <fieldset>
+            <legend>Add New Store</legend>
+
+            <label>Store Number</label>
+            <input type="text" id="store_number" name="store_number" placeholder="999" required />
+
+            <br />
+
+            <label>Phone Number</label>
+            <input type="tel" id="store_phone" name="store_phone" pattern="^\(\d{3}\) \d{3}-\d{4}$"
+                placeholder="(555) 123-4567" required />
+
+            <br />
+
+            <label>Email</label>
+            <input type="email" id="store_email" name="store_email"
+                pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" placeholder="something@example.com"
+                required />
+
+        </fieldset>
+
+        <input type="submit" value="Add Store" name="Add_Store" />
+        <a href="{{ url_for('stores') }}"><input type="button" value="Cancel" /></a>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}{{ super.super() }}{% endblock %}

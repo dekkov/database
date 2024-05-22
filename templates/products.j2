@@ -1,0 +1,51 @@
+{% extends "base.j2" %}
+{% block title %}: Products{% endblock %}
+
+{% block main_heading %}Products{% endblock %}
+
+{% block main_content %}
+
+<div id="browse_products">
+    {% block data_table %}
+    {% if data %}
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+
+                <!-- Update/Delete buttons -->
+                <td><a href="{{ url_for('update_products', product_id=item.ID) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{ url_for('delete_products', product_id=item.ID) }}"><i class="fa-solid fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+    {% endblock data_table %}
+
+    {% block table_button %}
+    <p><a href="{{ url_for('add_products') }}"><input type="button" value="Add New Product"></a></p>
+    {% endblock %}
+
+</div>
+
+{% endblock main_content %}
+
+{% block footer %}
+{% endblock %}

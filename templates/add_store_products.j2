@@ -1,0 +1,54 @@
+{% extends "store_products.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Add Store Product{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="add_store_product">
+    <form id="addStoreProduct" action="{{ url_for('add_store_products') }}" method="POST">
+        <fieldset>
+            <legend>Add New Store Product</legend>
+
+            <label>Store Number</label>
+            <select id="store_number" name="store_number" required>
+                {% if stores %}
+                {% for item in stores %}
+                <option value="{{ item['store_id'] }}">{{ item['store_number'] }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Product</label>
+            <select id="product_description" name="product_description" required>
+                {% if products %}
+                {% for item in products %}
+                <option value="{{ item['product_id'] }}">{{ item['product_description'] }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Number in Stock</label>
+            <input type="number" id="number_in_stock" name="number_in_stock" value="0" required />
+
+        </fieldset>
+
+        <input type="submit" value="Add Store Product" name="Add_Store_Product" />
+        <a href="{{ url_for('store_products') }}"><input type="button" value="Cancel" /></a>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}{{ super.super() }}{% endblock %}

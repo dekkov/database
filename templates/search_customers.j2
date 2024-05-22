@@ -1,0 +1,28 @@
+{% extends "customers.j2" %}
+{% block main_heading %}{{ super() }} / Search Results{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block data_table %}{{ super() }}{% endblock %}
+
+{% block table_button%}
+<p><a href="{{ url_for('customers') }}"><input type="button" value="Back" /></a></p>
+{% endblock %}
+
+{% endblock main_content %}
+
+{% block footer%}
+{% if data %}
+{{ super() }}
+{% else %}
+{{ super.super() }}
+{% endif %}
+{% endblock %}

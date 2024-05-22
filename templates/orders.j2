@@ -1,0 +1,90 @@
+{% extends "base.j2" %}
+{% block title %}: Orders{% endblock %}
+
+{% block main_heading %}Orders{% endblock %}
+
+{% block main_content %}
+
+<div id="browse_orders">
+    {% block order_data_table %}
+    {% if order_data %}
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in order_data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+
+                <th>Delete</th>
+            
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in order_data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+
+                <!-- Delete button -->
+                <td><a href="{{ url_for('delete_orders', order_id=item.ID) }}"><i class="fa-solid fa-trash"></i></a></td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+    {% endblock order_data_table %}
+
+    {% block order_table_button %}
+    <p><a href="{{ url_for('add_orders') }}"><input type="button" value="Add New Order"></a></p>
+    {% endblock %}
+
+</div>
+
+<br />
+<br />
+
+<h2>Order Details</h2>
+
+<div id="browse_order_details">
+    {% block order_detail_data_table %}
+    {% if order_detail_data %}
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in order_detail_data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in order_detail_data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+    {% endblock order_detail_data_table %}
+
+    {% block order_detail_table_button %}
+    <p><a href="{{ url_for('add_order_details') }}"><input type="button" value="Add New Order Detail"></a></p>
+    {% endblock %}
+
+</div>
+
+{% endblock main_content %}
+
+{% block footer %}<br />
+Customer data generated with <a class="random" href="https://randomuser.me/">Random User Generator</a>.
+{% endblock %}

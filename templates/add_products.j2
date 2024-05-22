@@ -1,0 +1,37 @@
+{% extends "products.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Add Product{% endblock %}
+
+{% block main_content %}
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="add_product">
+    <form id="addProduct" action="{{ url_for('add_products') }}" method="POST">
+        <fieldset>
+            <legend>Add New Product</legend>
+
+            <label>Description</label>
+            <input type="text" id="product_description" name="product_description" placeholder="name" required />
+
+            <br />
+
+            <label>Price</label>
+            <input type="number" id="product_price" name="product_price" step="0.01" placeholder="0.00" required />
+
+        </fieldset>
+
+        <input type="submit" value="Add Product" name="Add_Product" />
+        <a href="{{ url_for('products') }}"><input type="button" value="Cancel" /></a>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}{{ super.super() }}{% endblock %}

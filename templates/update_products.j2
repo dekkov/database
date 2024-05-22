@@ -1,0 +1,71 @@
+{% extends "products.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Update Product{% endblock %}
+
+{% block main_content %}
+
+<div id="update_product">
+    <table>
+        {% if data %}
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+<br />
+<br />
+
+{% if get_flashed_messages() %}
+<div id="flash_messages">
+    {% for message in get_flashed_messages() %}
+    <p class="yellow">{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div>
+    <form id="updateProduct" action="{{ url_for('update_products', product_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Update Product</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="product_id" name="product_id" disabled>
+
+            <br />
+
+            <label>Description</label>
+            <input type="text" value="{{ data[0].Description }}" id="product_description" name="product_description"
+                required />
+
+            <br />
+
+            <label>Price</label>
+            <input type="number" value="{{ data[0].Price }}" id="product_price" name="product_price" step="0.01"
+                required />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Update Product" name="Update_Product" />
+            <a href="{{ url_for('products') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

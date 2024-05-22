@@ -1,0 +1,49 @@
+{% extends "orders.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Delete Order{% endblock %}
+
+{% block main_content %}
+
+<div>
+    <p class="yellow">Warning: The following action cannot be undone.</p>
+    <p class="yellow">Deleting an Order associated with an Order Detail will delete that Order Detail.</p>
+</div>
+
+<div id="delete_order">
+    <form id="deleteOrder" action="{{ url_for('delete_orders', order_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Delete Order</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="order_id" name="order_id" disabled>
+
+            <br />
+
+            <label>Date</label>
+            <input value="{{ data[0].Date }}" id="order_date" name="order_date" disabled />
+
+            <br />
+
+            <label>Customer</label>
+            <input value="{{ data[0].Customer }}" id="customer_name" name="customer_name" disabled />
+
+            <br />
+
+            <label>Store Number</label>
+            <input value="{{ data[0]['Store Number'] }}" id="store_number" name="store_number" disabled />
+
+            <br />
+
+            <label>Notes</label>
+            <textarea id="order_notes" name="order_notes" disabled>{{ data[0].Notes }}</textarea>
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Delete Order" name="Delete_Order" />
+            <a href="{{ url_for('orders') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

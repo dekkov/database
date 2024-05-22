@@ -1,0 +1,53 @@
+{% extends "base.j2" %}
+{% block title %}: Store Products{% endblock %}
+
+{% block main_heading %}Store Products{% endblock %}
+
+{% block main_content %}
+
+<div id="browse_store_products">
+    {% block store_product_data_table %}
+    {% if data %}
+    
+    <table>
+        <thead>
+            <tr>
+                {% for key in data[0].keys() %}
+                <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                {% endfor %}
+
+                <th>Update</th>
+                <th>Delete</th>
+            
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                <td>{{ item[key] }}</td>
+                {% endfor %}
+
+                <!-- Update/Delete buttons -->
+                <td><a href="{{ url_for('update_store_products', store_product_id=item.ID) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{ url_for('delete_store_products', store_product_id=item.ID) }}"><i class="fa-solid fa-trash"></i></a></td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+    {% endblock store_product_data_table %}
+
+    {% block store_product_table_button %}
+    <p><a href="{{ url_for('add_store_products') }}"><input type="button" value="Add New Store Product"></a></p>
+    {% endblock %}
+
+</div>
+
+{% endblock main_content %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "stores.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Delete Store{% endblock %}
+
+{% block main_content %}
+
+<div>
+    <p class="yellow">Warning: The following action cannot be undone.</p>
+    <p class="yellow">Deleting a Store associated with a Store Product or an Order will delete that Store Product or Order as well as any Order Details associated with that Order.</p>
+</div>
+
+<div id="delete_store">
+    <form id="deleteStore" action="{{ url_for('delete_stores', store_id=data[0].ID) }}" method="POST">
+        <fieldset>
+            <legend>Delete Store</legend>
+
+            <label>ID</label>
+            <input value="{{ data[0].ID }}" id="store_id" name="store_id" disabled>
+
+            <br />
+
+            <label>Store Number</label>
+            <input value="{{ data[0]['Store Number'] }}" id="store_number" name="store_number" disabled />
+
+            <br />
+
+            <label>Phone Number</label>
+            <input value="{{ data[0].Phone }}" id="store_phone" name="store_phone" disabled />
+
+            <br />
+
+            <label>Email</label>
+            <input type="email" value="{{ data[0].Email }}" id="store_email" name="store_email" disabled />
+
+        </fieldset>
+
+        <p>
+            <input type="submit" value="Delete Store" name="Delete_Store" />
+            <a href="{{ url_for('stores') }}"><input type="button" value="Cancel" /></a>
+        </p>
+
+    </form>
+</div>
+
+{% endblock %}

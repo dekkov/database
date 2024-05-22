@@ -1,0 +1,57 @@
+{% extends "orders.j2" %}
+{% block main_heading %}<span class="blue">{{ super() }} /</span> Add Order{% endblock %}
+
+{% block main_content %}
+
+<div>
+    <p class="yellow">Customer can be NULL if implementing a Store to Store transfer.</p>
+    <p class="yellow">Make sure to include Notes about transfer i.e. From Store Number to Store Number.</p>
+</div>
+
+<div id="add_order">
+    <form id="addOrder" action="{{ url_for('add_orders') }}" method="POST">
+        <fieldset>
+            <legend>Add New Order</legend>
+
+            <label>Date</label>
+            <input type="date" id="order_date" name="order_date" required />
+
+            <br />
+
+            <label>Customer</label>
+            <select id="customer_name" name="customer_name" required>
+                <option value="NULL">NULL</option>
+                {% if customers %}
+                {% for item in customers %}
+                <option value="{{ item['customer_id'] }}">{{ item['customer_name'] }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Store Number</label>
+            <select id="store_number" name="store_number" required>
+                {% if stores %}
+                {% for item in stores %}
+                <option value="{{ item['store_id'] }}">{{ item['store_number'] }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+
+            <br />
+
+            <label>Notes (optional)</label>
+            <textarea id="order_notes" name="order_notes"></textarea>
+
+        </fieldset>
+
+        <input type="submit" value="Add Order" name="Add_Order" />
+        <a href="{{ url_for('orders') }}"><input type="button" value="Cancel" /></a>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}{{ super.super() }}{% endblock %}
