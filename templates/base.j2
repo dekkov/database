@@ -6,10 +6,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="Hero Electronics Database (Draft)" />
-        <meta name="author" content="Dania Magana, August Frisk" />
+        <meta name="description" content="GamePoint Database" />
+        <meta name="author" content="Hoang Tran" />
 
-        <title>Hero Electronics{% block title %}{% endblock %}</title>
+        <title>GamePoint{% block title %}{% endblock %}</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -21,13 +21,11 @@
     <body>
 
         <header>
-            <h1><i class="fa-regular fa-chess-rook blue"></i>Hero
+            <h1><i class="fa-solid fa-gamepad"></i>TTG Shop
                 <br />
-                <span class="yellow">Electronics</span>
             </h1>
         </header>
 
-        <hr />
 
         <nav>
             <a href="{{ url_for('customers') }}">Customers</a> | <a href="{{ url_for('products') }}">Products</a> | <a
@@ -35,7 +33,7 @@
             | <a href="{{ url_for('orders') }}">Orders</a>
         </nav>
 
-        <hr />
+        
 
         <main>
 
@@ -50,7 +48,7 @@
         <footer>
 
             <div align="center">
-                <p>&copy; 2023 Dania Magana &amp; August Frisk.
+                <p>&copy; 2023 Hoang Tran.
                     {% block footer %}{% endblock %}
                 </p>
             </div>

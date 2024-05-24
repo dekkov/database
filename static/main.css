@@ -3,14 +3,14 @@
 
 body {
     font-family: "Open Sans", sans-serif;
-    font-weight: 300;
-    line-height: 1.42em;
-    color: #CCC3D6;
-    background-color: #1F2739;
+    color: #7e2dda;
+    background-color: lightcyan;
     margin: auto;
     padding: auto;
     text-align: center;
     margin: auto;
+    font-weight: 300;
+    line-height: 1.42em;
 }
 
 h1 {
@@ -27,7 +27,7 @@ h2 {
     display: block;
     line-height: 1em;
     padding-bottom: 2em;
-    color: #E43950;
+    color: Black;
     text-decoration: none;
     text-transform: uppercase;
 }
@@ -41,7 +41,17 @@ h2 {
     color: #FFF842;
 }
 
+
+nav {
+    background-color: black;
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 nav a {
+    text-align: center;
     font-weight: bold;
     font-size: 1em;
     color: #5aa6c9;
@@ -49,7 +59,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #FFF842;
+    background-color: lightgrey;
 }
 
 .random {
@@ -78,17 +88,18 @@ th {
     font-weight: bold;
     font-size: 1em;
     color: #2399CF;
-    background-color: #1F2739;
+    background-color: #1f2431;
 }
 
 td {
+    color: white;
     padding: 2% 10px;
     text-align: center;
     font-weight: bold;
     font-size: 1em;
-    box-shadow: 0 2px 2px 2px #0E1119;
-    -moz-box-shadow: 0 2px 2px 2px #0E1119;
-    -webkit-box-shadow: 0 2px 2px 2px #0E1119;
+    box-shadow: 0 2px 2px 2px #151821;
+    -moz-box-shadow: 0 2px 2px 2px #151821;
+    -webkit-box-shadow: 0 2px 2px 2px #151821;
 }
 
 td a {
@@ -104,7 +115,7 @@ tr:nth-child(even) {
 }
 
 td:first-child {
-    color: #FFF842;
+    color: whitesmoke;
 }
 
 td:nth-last-child(2) a {
@@ -116,16 +127,16 @@ td:last-child a {
 }
 
 tr:hover {
-    background-color: #464A52;
-    box-shadow: 0 6px 6px -6px #0E1119;
-    -moz-box-shadow: 0 6px 6px -6px #0E1119;
-    -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+    background-color: #1f2431;
+    box-shadow: 0 6px 6px -6px #11b3ab;
+    -moz-box-shadow: 0 6px 6px -6px #11b3ab;
+    -webkit-box-shadow: 0 6px 6px -6px #11b3ab;
 }
 
 td:hover {
-    background-color: #FFF842;
+    background-color: #15d9cf;
     color: #403E10;
-    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+    box-shadow: #11b3ab -1px 1px, #11b3ab -2px 2px, #11b3ab -3px 3px, #11b3ab -4px 4px, #11b3ab -5px 5px, #11b3ab -6px 6px;
     transform: translate3d(6px, -6px, 0);
     transition-delay: 0s;
     transition-duration: 0.4s;
@@ -243,4 +254,8 @@ input[type="submit"]:hover {
     float: none;
     margin: 2% auto;
     font-weight: bold;
+}
+
+.warning {
+    color: red;
 }

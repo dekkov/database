@@ -15,6 +15,8 @@ app.config["MYSQL_PASSWORD"] = "AYCwBI6Lac"
 app.config["MYSQL_DB"] = "sql3708445"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
+SECRET_KEY = "TESTING"
+app.secret_key = str.encode(str(SECRET_KEY))
 
 PORT = os.environ.get("PORT")
 
@@ -66,7 +68,7 @@ def customers():
             data = cur.fetchall()
 
             try:
-                data[0]
+                data[1]
             except:
                 if customer_search == "":
                     flash("No results found for empty string.")
