@@ -1,4 +1,3 @@
--- Group 56: Dania Magana and August Frisk
 
 -- ####################################################################
 -- The BROWSE customers.html Page

@@ -4,23 +4,41 @@
 
 from flask import Flask, flash, render_template, redirect, request
 from flask_mysqldb import MySQL
+import pymysql
 import os
 from database.validation import is_valid_name, is_valid_email, is_valid_phone
 
 app = Flask(__name__)
 
-app.config["MYSQL_HOST"] = "sql3.freesqldatabase.com"
-app.config["MYSQL_USER"] = "sql3708445"
-app.config["MYSQL_PASSWORD"] = "AYCwBI6Lac"
-app.config["MYSQL_DB"] = "sql3708445"
+app.config["MYSQL_HOST"] = "mysql-ttgshop-ttgshop.l.aivencloud.com"
+app.config["MYSQL_USER"] = "avnadmin"
+app.config["MYSQL_PASSWORD"] = "AVNS_1QNx8hzFEGkxwZlcLXZ"
+app.config["MYSQL_DB"] = "defaultdb"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 SECRET_KEY = "TESTING"
 app.secret_key = str.encode(str(SECRET_KEY))
 
-PORT = os.environ.get("PORT")
+PORT = 28700
 
 mysql = MySQL(app)
+
+timeout = 10
+connection = pymysql.connect(
+    charset="utf8mb4",
+    connect_timeout=timeout,
+    cursorclass=pymysql.cursors.DictCursor,
+    db="defaultdb",
+    host="mysql-ttgshop-ttgshop.l.aivencloud.com",
+    password="AVNS_1QNx8hzFEGkxwZlcLXZ",
+    read_timeout=timeout,
+    port=28700,
+    user="avnadmin",
+    write_timeout=timeout,
+)
+
+
+
 
 
 @app.route("/")
@@ -45,7 +63,7 @@ def customers():
                 customer_phone AS 'Phone',
                 customer_email AS 'Email'
                 FROM Customers;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
@@ -63,7 +81,7 @@ def customers():
                     customer_phone AS 'Phone',
                     customer_email AS 'Email'
                     FROM Customers WHERE {search_by} = '{customer_search}';"""
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query)
             data = cur.fetchall()
 
@@ -122,9 +140,9 @@ def add_customers():
 
             # Insert new Customer into database.
             query = "INSERT INTO Customers (customer_name, customer_phone, customer_email) VALUES (%s, %s, %s);"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (customer_name, customer_phone, customer_email))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/customers")
 
@@ -142,7 +160,7 @@ def delete_customers(customer_id):
                 customer_phone AS 'Phone', 
                 customer_email AS 'Email' 
                 FROM Customers WHERE customer_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (customer_id,))
         data = cur.fetchall()
 
@@ -152,9 +170,9 @@ def delete_customers(customer_id):
         # User presses 'Delete Customer' button.
         if request.form.get("Delete_Customer"):
             query = "DELETE FROM Customers WHERE customer_id = %s;"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (customer_id,))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/customers")
 
@@ -172,7 +190,7 @@ def update_customers(customer_id):
                 customer_phone AS 'Phone', 
                 customer_email AS 'Email' 
                 FROM Customers WHERE customer_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (customer_id,))
         data = cur.fetchall()
 
@@ -211,11 +229,11 @@ def update_customers(customer_id):
             query = """UPDATE Customers
                     SET customer_name = %s, customer_phone = %s, customer_email = %s
                     WHERE customer_id = %s;"""
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(
                 query, (customer_name, customer_phone, customer_email, customer_id)
             )
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/customers")
 
@@ -236,7 +254,7 @@ def products():
                 product_description AS 'Description',
                 product_price AS 'Price'
                 FROM Products;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
@@ -266,9 +284,9 @@ def add_products():
             try:
                 # Insert new Product into database.
                 query = "INSERT INTO Products (product_description, product_price) VALUES (%s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (product_description, product_price))
-                mysql.connection.commit()
+                connection.commit()
                 
                 return redirect("/products")
             except:
@@ -288,7 +306,7 @@ def delete_products(product_id):
                 product_description AS 'Description', 
                 product_price AS 'Price' 
                 FROM Products WHERE product_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (product_id,))
         data = cur.fetchall()
 
@@ -298,9 +316,9 @@ def delete_products(product_id):
         # User presses 'Delete Product' button.
         if request.form.get("Delete_Product"):
             query = "DELETE FROM Products WHERE product_id = %s;"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (product_id,))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/products")
 
@@ -316,7 +334,7 @@ def update_products(product_id):
                 product_description AS 'Description', 
                 product_price AS 'Price' 
                 FROM Products WHERE product_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (product_id,))
         data = cur.fetchall()
 
@@ -336,7 +354,7 @@ def update_products(product_id):
                         product_description AS 'Description', 
                         product_price AS 'Price' 
                         FROM Products WHERE product_id = %s;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (product_id,))
                 data = cur.fetchall()
                 
@@ -346,9 +364,9 @@ def update_products(product_id):
                 query = """UPDATE Products
                         SET product_description = %s, product_price = %s
                         WHERE product_id = %s;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (product_description, product_price, product_id))
-                mysql.connection.commit()
+                connection.commit()
 
                 return redirect("/products")
 
@@ -370,7 +388,7 @@ def stores():
                 store_phone AS 'Phone', 
                 store_email AS 'Email' 
                 FROM Stores;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
@@ -414,9 +432,9 @@ def add_stores():
             try:
                 # Insert new Store into database.
                 query = "INSERT INTO Stores (store_number, store_phone, store_email) VALUES (%s, %s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (store_number, store_phone, store_email))
-                mysql.connection.commit()
+                connection.commit()
 
                 return redirect("/stores")
             except:
@@ -437,7 +455,7 @@ def delete_stores(store_id):
                 store_phone AS 'Phone', 
                 store_email AS 'Email' 
                 FROM Stores WHERE store_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (store_id,))
         data = cur.fetchall()
 
@@ -447,9 +465,9 @@ def delete_stores(store_id):
         # User presses 'Delete Store' button.
         if request.form.get("Delete_Store"):
             query = "DELETE FROM Stores WHERE store_id = %s;"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (store_id,))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/stores")
 
@@ -466,7 +484,7 @@ def update_stores(store_id):
                 store_phone AS 'Phone', 
                 store_email AS 'Email' 
                 FROM Stores WHERE store_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (store_id,))
         data = cur.fetchall()
 
@@ -500,9 +518,9 @@ def update_stores(store_id):
             query = """UPDATE Stores
                     SET store_number = %s, store_phone = %s, store_email = %s
                     WHERE store_id = %s;"""
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (store_number, store_phone, store_email, store_id))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/stores")
 
@@ -525,7 +543,7 @@ def store_products():
                 FROM StoreProducts
                 INNER JOIN Stores ON Stores.store_id = StoreProducts.store_id
                 INNER JOIN Products ON Products.product_id = StoreProducts.product_id;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
@@ -540,13 +558,13 @@ def add_store_products():
     if request.method == "GET":
         # Store ID/Number data for dropdown.
         query = "SELECT store_id, store_number FROM Stores;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         store_data = cur.fetchall()
 
         # Product ID/Description data for dropdown.
         query2 = "SELECT product_id, product_description FROM Products;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query2)
         product_data = cur.fetchall()
 
@@ -567,13 +585,13 @@ def add_store_products():
                 
                 # Store ID/Number data for dropdown.
                 query = "SELECT store_id, store_number FROM Stores;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query)
                 store_data = cur.fetchall()
 
                 # Product ID/Description data for dropdown.
                 query2 = "SELECT product_id, product_description FROM Products;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query2)
                 product_data = cur.fetchall()
 
@@ -585,9 +603,9 @@ def add_store_products():
             try:
                 # Insert new Store Product into database.
                 query = "INSERT INTO StoreProducts (store_id, product_id, number_in_stock) VALUES (%s, %s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (store_id, product_id, number_in_stock))
-                mysql.connection.commit()
+                connection.commit()
 
                 return redirect("/store_products")
             except:
@@ -595,13 +613,13 @@ def add_store_products():
                 
                 # Store ID/Number data for dropdown.
                 query = "SELECT store_id, store_number FROM Stores;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query)
                 store_data = cur.fetchall()
 
                 # Product ID/Description data for dropdown.
                 query2 = "SELECT product_id, product_description FROM Products;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query2)
                 product_data = cur.fetchall()
 
@@ -626,7 +644,7 @@ def delete_store_products(store_product_id):
                 INNER JOIN Stores ON Stores.store_id = StoreProducts.store_id
                 INNER JOIN Products ON Products.product_id = StoreProducts.product_id
                 WHERE store_product_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (store_product_id,))
         data = cur.fetchall()
 
@@ -636,9 +654,9 @@ def delete_store_products(store_product_id):
         # User presses 'Delete Store Product' button.
         if request.form.get("Delete_Store_Product"):
             query = "DELETE FROM StoreProducts WHERE store_product_id = %s;"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (store_product_id,))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/store_products")
 
@@ -659,19 +677,19 @@ def update_store_products(store_product_id):
                 INNER JOIN Stores ON Stores.store_id = StoreProducts.store_id
                 INNER JOIN Products ON Products.product_id = StoreProducts.product_id
                 WHERE store_product_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (store_product_id,))
         data = cur.fetchall()
 
         # Store ID/Number data for dropdown.
         query2 = "SELECT store_id, store_number FROM Stores;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query2)
         store_data = cur.fetchall()
 
         # Product ID/Description data for dropdown.
         query3 = "SELECT product_id, product_description FROM Products;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query3)
         product_data = cur.fetchall()
 
@@ -702,19 +720,19 @@ def update_store_products(store_product_id):
                         INNER JOIN Stores ON Stores.store_id = StoreProducts.store_id
                         INNER JOIN Products ON Products.product_id = StoreProducts.product_id
                         WHERE store_product_id = %s;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (store_product_id,))
                 data = cur.fetchall()
 
                 # Store ID/Number data for dropdown.
                 query2 = "SELECT store_id, store_number FROM Stores;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query2)
                 store_data = cur.fetchall()
 
                 # Product ID/Description data for dropdown.
                 query3 = "SELECT product_id, product_description FROM Products;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query3)
                 product_data = cur.fetchall()
 
@@ -729,11 +747,11 @@ def update_store_products(store_product_id):
                 query = """UPDATE StoreProducts
                         SET store_id = %s, product_id = %s, number_in_stock = %s
                         WHERE store_product_id = %s;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(
                     query, (store_id, product_id, number_in_stock, store_product_id)
                 )
-                mysql.connection.commit()
+                connection.commit()
 
                 return redirect("/store_products")
 
@@ -758,7 +776,7 @@ def orders():
                 FROM Orders
                 LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
                 LEFT JOIN Stores ON Stores.store_id = Orders.store_id;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         order_data = cur.fetchall()
 
@@ -772,7 +790,7 @@ def orders():
                  FROM OrderDetails
                  INNER JOIN Products
                  ON Products.product_id = OrderDetails.product_id;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query2)
         order_detail_data = cur.fetchall()
 
@@ -789,13 +807,13 @@ def add_orders():
     if request.method == "GET":
         # Customer ID/Name data for dropdown.
         query = "SELECT customer_id, customer_name FROM Customers;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         customer_data = cur.fetchall()
 
         # Store ID/Number data for dropdown.
         query2 = "SELECT store_id, store_number FROM Stores;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query2)
         store_data = cur.fetchall()
 
@@ -815,15 +833,15 @@ def add_orders():
             # account for null customer_id
             if customer_id == "NULL":
                 query = "INSERT INTO Orders (order_date, customer_id, store_id, order_notes) VALUES (%s, %s, %s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (order_date, NULL, store_id, order_notes))
-                mysql.connection.commit()
+                connection.commit()
             # no null inputs
             else:
                 query = "INSERT INTO Orders (order_date, customer_id, store_id, order_notes) VALUES (%s, %s, %s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (order_date, customer_id, store_id, order_notes))
-                mysql.connection.commit()
+                connection.commit()
 
             return redirect("/orders")
 
@@ -841,7 +859,7 @@ def add_order_details():
                 FROM Orders
                 INNER JOIN Customers ON Customers.customer_id = Orders.customer_id
                 INNER JOIN Stores ON Stores.store_id = Orders.store_id;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query)
         order_data = cur.fetchall()
 
@@ -852,13 +870,13 @@ def add_order_details():
                  FROM Orders
                  INNER JOIN Stores ON Stores.store_id = Orders.store_id
                  WHERE Orders.customer_id is NULL;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query2)
         null_order_data = cur.fetchall()
 
         # Product ID/Description data for dropdown.
         query3 = "SELECT product_id, product_description FROM Products;"
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query3)
         product_data = cur.fetchall()
 
@@ -894,7 +912,7 @@ def add_order_details():
                         FROM Orders
                         INNER JOIN Customers ON Customers.customer_id = Orders.customer_id
                         INNER JOIN Stores ON Stores.store_id = Orders.store_id;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query)
                 order_data = cur.fetchall()
 
@@ -905,13 +923,13 @@ def add_order_details():
                         FROM Orders
                         INNER JOIN Stores ON Stores.store_id = Orders.store_id
                         WHERE Orders.customer_id is NULL;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query2)
                 null_order_data = cur.fetchall()
 
                 # Product ID/Description data for dropdown.
                 query3 = "SELECT product_id, product_description FROM Products;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query3)
                 product_data = cur.fetchall()
 
@@ -926,9 +944,9 @@ def add_order_details():
             try:
                 # Insert new OrderDetail into database.
                 query = "INSERT INTO OrderDetails (order_id, product_id, order_quantity, line_total) VALUES (%s, %s, %s, %s);"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query, (order_id, product_id, order_quantity, line_total))
-                mysql.connection.commit()
+                connection.commit()
 
                 return redirect("/orders")
             except:
@@ -941,7 +959,7 @@ def add_order_details():
                         FROM Orders
                         INNER JOIN Customers ON Customers.customer_id = Orders.customer_id
                         INNER JOIN Stores ON Stores.store_id = Orders.store_id;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query)
                 order_data = cur.fetchall()
 
@@ -952,13 +970,13 @@ def add_order_details():
                         FROM Orders
                         INNER JOIN Stores ON Stores.store_id = Orders.store_id
                         WHERE Orders.customer_id is NULL;"""
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query2)
                 null_order_data = cur.fetchall()
 
                 # Product ID/Description data for dropdown.
                 query3 = "SELECT product_id, product_description FROM Products;"
-                cur = mysql.connection.cursor()
+                cur = connection.cursor()
                 cur.execute(query3)
                 product_data = cur.fetchall()
 
@@ -987,7 +1005,7 @@ def delete_orders(order_id):
                 LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
                 LEFT JOIN Stores ON Stores.store_id = Orders.store_id
                 WHERE order_id = %s;"""
-        cur = mysql.connection.cursor()
+        cur = connection.cursor()
         cur.execute(query, (order_id,))
         data = cur.fetchall()
 
@@ -997,9 +1015,9 @@ def delete_orders(order_id):
         # User presses 'Delete Order' button.
         if request.form.get("Delete_Order"):
             query = "DELETE FROM Orders WHERE order_id = %s;"
-            cur = mysql.connection.cursor()
+            cur = connection.cursor()
             cur.execute(query, (order_id,))
-            mysql.connection.commit()
+            connection.commit()
 
             return redirect("/orders")
 
